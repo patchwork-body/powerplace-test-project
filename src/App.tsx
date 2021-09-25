@@ -1,17 +1,18 @@
 import { Container, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
-import dayjs from 'dayjs';
 import { AgendaCard } from './ui/agenda-card/AgendaCard';
 import { AgendaContent } from './ui/agenda-content/AgendaContent';
-import { AgendaItem } from './ui/agenda-list/AgendaList';
 import { usePowerplaceApi } from './hooks/use-powerplace-api';
+import {
+  groupAgendaItemsByStartTime,
+  AgendaMap,
+  AgendaApiResponseData,
+} from './helpers/group-agenda-items-by-startTime';
 
 type Area = {
   id: number;
   title: string;
 };
-
-type AgendaMap = Record<number, Record<string, AgendaItem[]>>;
 
 function App() {
   const [areas, setAreas] = useState<Area[]>([]);
@@ -20,28 +21,7 @@ function App() {
   usePowerplaceApi({ resourceName: 'areas', setStateActionDispatcher: setAreas });
   usePowerplaceApi({
     resourceName: 'agenda',
-
-    middleware: (data: Record<number, AgendaItem[]>) =>
-      Object.entries(data).reduce<AgendaMap>(
-        (map, [key, value]) => ({
-          ...map,
-
-          [key]: value.reduce<AgendaMap[number]>(
-            (map, item) => ({
-              ...map,
-
-              [dayjs(item.startTime).format('MM.DD.YYYY')]: (
-                map[dayjs(item.startTime).format('MM.DD.YYYY')] ?? []
-              ).concat(item),
-            }),
-
-            {},
-          ),
-        }),
-
-        {},
-      ),
-
+    middleware: (data: AgendaApiResponseData) => groupAgendaItemsByStartTime(data),
     setStateActionDispatcher: setAgenda,
   });
 
