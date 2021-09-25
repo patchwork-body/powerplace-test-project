@@ -16,5 +16,6 @@ export function usePowerplaceApi<ResultType, RawApiResponseType = Record<string 
       .then(response => response.json())
       .then(middleware)
       .then(setStateActionDispatcher);
+    // eslint-disable-next-line
   }, []);
 }
