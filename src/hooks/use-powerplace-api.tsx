@@ -1,13 +1,17 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { AgendaItem } from '../ui/agenda-list/AgendaList';
 
-type UsePowerPlaceApiParams<ResultType, RawApiType = Record<string | number, AgendaItem[]>> = {
+type UsePowerPlaceApiParams<ResultType, RawApiType> = {
   resourceName: 'areas' | 'agenda';
   setStateActionDispatcher: Dispatch<SetStateAction<ResultType>>;
   middleware?: (data: RawApiType) => ResultType;
 };
 
-export function usePowerplaceApi<T>({ resourceName, setStateActionDispatcher, middleware }: UsePowerPlaceApiParams<T>) {
+export function usePowerplaceApi<ResultType, RawApiResponseType = Record<string | number, any>>({
+  resourceName,
+  setStateActionDispatcher,
+  middleware,
+}: UsePowerPlaceApiParams<ResultType, RawApiResponseType>) {
   useEffect(() => {
     fetch(`https://dev.powerplace.online/api/v1/test/${resourceName}`)
       .then(response => response.json())
