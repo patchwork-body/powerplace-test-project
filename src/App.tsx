@@ -1,9 +1,10 @@
 import { Container, Grid, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import dayjs from 'dayjs';
 import { AgendaCard } from './ui/agenda-card/AgendaCard';
 import { AgendaContent } from './ui/agenda-content/AgendaContent';
 import { AgendaItem } from './ui/agenda-list/AgendaList';
+import { usePowerplaceApi } from './hooks/use-powerplace-api';
 
 type Area = {
   id: number;
@@ -16,40 +17,33 @@ function App() {
   const [areas, setAreas] = useState<Area[]>([]);
   const [agenda, setAgenda] = useState<AgendaMap>({});
 
-  useEffect(() => {
-    fetch('https://dev.powerplace.online/api/v1/test/areas')
-      .then(response => response.json())
-      .then(setAreas);
+  usePowerplaceApi({ resourceName: 'areas', setStateActionDispatcher: setAreas });
+  usePowerplaceApi({
+    resourceName: 'agenda',
 
-    fetch('https://dev.powerplace.online/api/v1/test/agenda')
-      .then(response => response.json())
+    middleware: (data: Record<number, AgendaItem[]>) =>
+      Object.entries(data).reduce<AgendaMap>(
+        (map, [key, value]) => ({
+          ...map,
 
-      .then((data: Record<number, AgendaItem[]>) => {
-        setAgenda(
-          Object.entries(data).reduce<AgendaMap>(
-            (map, [key, value]) => ({
+          [key]: value.reduce<AgendaMap[number]>(
+            (map, item) => ({
               ...map,
 
-              [key]: value.reduce<AgendaMap[number]>(
-                (map, item) => ({
-                  ...map,
-
-                  [dayjs(item.startTime).format('MM.DD.YYYY')]: (
-                    map[dayjs(item.startTime).format('MM.DD.YYYY')] ?? []
-                  ).concat(item),
-                }),
-
-                {},
-              ),
+              [dayjs(item.startTime).format('MM.DD.YYYY')]: (
+                map[dayjs(item.startTime).format('MM.DD.YYYY')] ?? []
+              ).concat(item),
             }),
 
             {},
           ),
-        );
-      });
-  }, [setAreas, setAgenda]);
+        }),
 
-  console.log(agenda);
+        {},
+      ),
+
+    setStateActionDispatcher: setAgenda,
+  });
 
   return (
     <Container>
@@ -66,15 +60,17 @@ function App() {
         spacing={4}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {areas.map(({ id, title }) => (
-          <Grid item xs={8} sm={6} md={4} key={id}>
-            <AgendaCard title={title}>
-              {Object.entries(agenda[id]).map(([date, items]) => (
-                <AgendaContent title={date} items={items} />
-              ))}
-            </AgendaCard>
-          </Grid>
-        ))}
+        {areas.length > 0 &&
+          areas.map(({ id, title }) => (
+            <Grid item xs={8} sm={6} md={4} key={id}>
+              <AgendaCard title={title}>
+                {agenda[id] &&
+                  Object.entries(agenda[id]).map(([date, items]) => (
+                    <AgendaContent key={`${id}#${date}`} title={date} items={items} />
+                  ))}
+              </AgendaCard>
+            </Grid>
+          ))}
       </Grid>
     </Container>
   );
