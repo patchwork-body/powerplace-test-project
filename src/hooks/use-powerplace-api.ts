@@ -16,5 +16,5 @@ export function usePowerplaceApi<ResultType, RawApiResponseType = Record<string 
       .then(response => response.json())
       .then(middleware)
       .then(setStateActionDispatcher);
-  }, [resourceName, setStateActionDispatcher, middleware]);
+  }, []);
 }
