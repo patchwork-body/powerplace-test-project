@@ -14,5 +14,9 @@ export const Speakers = memo(function Speakers({ speakers }: SpeakersProps) {
     return null;
   }
 
-  return <span style={{ fontStyle: 'italic' }}>({speakers.map(({ name }) => name).join(' ')})</span>;
+  return (
+    <span data-testid="agenda-point-speakers" style={{ fontStyle: 'italic' }}>
+      ({speakers.map(({ name }) => name).join(' ')})
+    </span>
+  );
 });
