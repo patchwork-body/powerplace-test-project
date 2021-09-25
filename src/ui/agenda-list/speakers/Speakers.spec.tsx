@@ -16,11 +16,11 @@ describe('Speakers', () => {
     const container = render(<Speakers speakers={testSpeakers1} />);
 
     const foundSpeakers1 = screen.getByTestId('agenda-point-speakers');
-    expect(foundSpeakers1).toHaveTextContent(testSpeakers1.map(({ name }) => name).join(' '));
+    expect(foundSpeakers1).toHaveTextContent(testSpeakers1.map(({ name }) => name).join(', '));
 
     container.rerender(<Speakers speakers={testSpeakers2} />);
 
     const foundSpeakers2 = screen.getByTestId('agenda-point-speakers');
-    expect(foundSpeakers2).toHaveTextContent(testSpeakers2.map(({ name }) => name).join(' '));
+    expect(foundSpeakers2).toHaveTextContent(testSpeakers2.map(({ name }) => name).join(', '));
   });
 });
