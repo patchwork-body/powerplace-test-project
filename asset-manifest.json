@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/powerplace-test-project/static/css/main.76d1ba9f.chunk.css",
+    "main.js": "/powerplace-test-project/static/js/main.85f31b84.chunk.js",
+    "main.js.map": "/powerplace-test-project/static/js/main.85f31b84.chunk.js.map",
+    "runtime-main.js": "/powerplace-test-project/static/js/runtime-main.cb09684b.js",
+    "runtime-main.js.map": "/powerplace-test-project/static/js/runtime-main.cb09684b.js.map",
+    "static/js/2.5e26cfd1.chunk.js": "/powerplace-test-project/static/js/2.5e26cfd1.chunk.js",
+    "static/js/2.5e26cfd1.chunk.js.map": "/powerplace-test-project/static/js/2.5e26cfd1.chunk.js.map",
+    "index.html": "/powerplace-test-project/index.html",
+    "static/css/main.76d1ba9f.chunk.css.map": "/powerplace-test-project/static/css/main.76d1ba9f.chunk.css.map",
+    "static/js/2.5e26cfd1.chunk.js.LICENSE.txt": "/powerplace-test-project/static/js/2.5e26cfd1.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cb09684b.js",
+    "static/js/2.5e26cfd1.chunk.js",
+    "static/css/main.76d1ba9f.chunk.css",
+    "static/js/main.85f31b84.chunk.js"
+  ]
+}
