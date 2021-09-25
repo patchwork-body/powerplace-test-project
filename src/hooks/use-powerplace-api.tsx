@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
-import { AgendaItem } from '../ui/agenda-list/AgendaList';
 
 type UsePowerPlaceApiParams<ResultType, RawApiType> = {
   resourceName: 'areas' | 'agenda';
