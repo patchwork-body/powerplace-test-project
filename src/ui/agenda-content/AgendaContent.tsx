@@ -9,7 +9,7 @@ type AgendaContentProps = {
 
 export const AgendaContent = memo(function AgendaContent({ title, items }: AgendaContentProps) {
   return (
-    <Box>
+    <Box data-testid="agenda-content">
       <Typography
         variant="h3"
         fontSize="20px"
